@@ -2,6 +2,32 @@
     display: none;
 }
 
-.image_div {
+.image_div, .image, .description {
+    width: 100%;
+}
+
+#content {
+    margin: auto;
     width: 70%;
+}
+
+#gallery_title_box {
+    width: 40%;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+#dropzone {
+    border: 2px solid red;
+    width: 100%;
+    margin: auto 0;
+    text-align: center;
+}
+
+#inner_dropzone {
+    padding: 10px 25px 25px 25px;
+}
+
+.shaded {
+    background-color: rgba(0, 0, 0, 0.1);
 }

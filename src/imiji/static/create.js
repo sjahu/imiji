@@ -4,10 +4,62 @@ gallery.images = [];
 
 $(document).ready(function() {
     $("#file_button").on("change", function() {
-        console.log(this.files);
+        handle_files(this.files);
+    });
 
+    $("#dropzone").on("dragover", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+
+    $("#dropzone").on("dragenter", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        $("#dropzone").addClass("shaded");
+    });
+
+    $("#dropzone").on("dragexit", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        $("#dropzone").removeClass("shaded");
+    });
+
+    $("#dropzone").on("drop", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        $("#dropzone").removeClass("shaded");
+
+        const files = [];
+
+        console.log(e);
+
+        const dt = e.originalEvent.dataTransfer;
+
+        // creds to MDN for most of this: https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/File_drag_and_drop
+        if (dt.items) {
+            // Use DataTransferItemList interface to access the file(s)
+            for (const item of dt.items) {
+                // If dropped items aren't files, reject them
+                if (item.kind === 'file') {
+                    files.push(item.getAsFile());
+                }
+            }
+        } else {
+            // Use DataTransfer interface to access the file(s)
+            for (const file of dt.files) {
+                files.push(file);
+            }
+        }
+
+        handle_files(files);
+    });
+
+    function handle_files(files) {
         // display new files and add to images list
-        for (const file of this.files) {
+        for (const file of files) {
             // create and show new image/description textbox
             const new_div = $("#image_template").clone();
             new_div.removeClass("hidden")
@@ -32,8 +84,8 @@ $(document).ready(function() {
             $(new_div).find("textarea").on("change", function() {
                 image.description = this.value;
             });
-        };
-    });
+        }
+    }
 
     $("#gallery_title_box").on("change", function() {
         gallery.title = this.value
