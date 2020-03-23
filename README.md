@@ -33,7 +33,7 @@ source /usr/local/bin/virtualenvwrapper.sh`
 # Launching imiji
 To run the project, run `workon imiji` then `./run.sh`. The default port is 5000. A MongoDB instance must be accessible at the URI specified in the Flask instance config.
 
-# Screenshot
+# Screenshots
 Creating a gallery
 ![imiji gallery creation](imiji_create_gallery.png?raw=true "Title")
 
