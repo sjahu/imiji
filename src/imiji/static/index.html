@@ -1,3 +1,49 @@
-Static index.html
-<br><br>
-Hello, world!
+<html>
+    <head>
+        <title>
+            imiji
+        </title>
+        <link rel="stylesheet" type="text/css" href="/static/style.css">
+        <script src="/static/jquery-3.4.1.min.js"></script>
+        <script src="/static/create.js"></script>
+    </head>
+    <body>
+        <h1>imiji</h1>
+
+        <hr>
+
+        <h2>Create a gallery</h2>
+
+        <label for="gallery_title_box">Title:</label>
+        <input type="text"
+               id="gallery_title_box"
+               name="gallery_title_box">
+
+        <br><br>
+
+        <div id="images">
+
+            <div id="image_template" class="image_div hidden">
+                <img width="100%"></img>
+                <br>
+                <textarea placeholder="Description" style="width: 100%;"></textarea>
+                <br><br>
+            </div>
+
+        </div>
+
+        <br>
+
+        <label for="file_button">Add images:</label>
+        <input type="file"
+               id="file_button"
+               name="file_button"
+               accept="image/jpeg"
+               multiple="true">
+
+        <br><br>
+
+        <label for="upload_button">Create gallery:</label>
+        <input type="button" id="upload_button" name="upload_button" value="Upload">
+    </body>
+</html>

@@ -83,7 +83,7 @@ def create_app(test_config=None):
 
         {
           title: ... (OPTIONAL),
-          images: ... (OPTIONAL)
+          images: ... (OPTIONAL) (an image is an image ID)
         }
         """
         if not request.json:
