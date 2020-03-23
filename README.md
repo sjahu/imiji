@@ -11,7 +11,7 @@ Stephen Humphries, 2020
 - REST API to upload and download images and create galleries
 
 # Access the application
-Create a gallery and upload images at http://[server]:[port] and view galleries at http://[server]:[port]/gallery/<id> .
+Create a gallery and upload images at http://[server]:[port] and view galleries at http://[server]:[port]/gallery/[id] .
 
 # Configuring dev environment
 ## Prerequisites:
