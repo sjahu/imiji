@@ -19,7 +19,7 @@ def create_app(test_config=None):
 
         This page allows the user to create a gallery from uploaded images.
         """
-        return app.send_static_file("index.html")
+        return app.send_static_file("create.html")
 
     @app.route("/gallery/<id>")
     def page_gallery(id):
