@@ -31,4 +31,4 @@ source /usr/local/bin/virtualenvwrapper.sh`
 - `pip install flask pymongo`
 
 # Launching imiji
-To run the project, run `workon imiji` then `./run.sh`. The default port is 5000.
+To run the project, run `workon imiji` then `./run.sh`. The default port is 5000. A MongoDB instance must be accessible at the URI specified in the Flask instance config.
