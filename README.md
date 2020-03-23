@@ -13,7 +13,7 @@ Stephen Humphries, 2020
 # Access the application
 Create a gallery and upload images at http://[server]:[port] and view galleries at http://[server]:[port]/gallery/<id> .
 
-# Configuring environment
+# Configuring dev environment
 ## Prerequisites:
 
 - python3
