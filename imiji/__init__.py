@@ -6,11 +6,16 @@ from io import BytesIO
 from db import DB_Handler
 
 def create_app(test_config=None):
+    """
+    Create the Flask application
+    """
     app = Flask(__name__, instance_relative_config=True)
-
     app.config.from_pyfile("config.py")
 
+    # create database handler
     db = DB_Handler(app.config)
+
+    # page routes:
 
     @app.route("/")
     def page_index():
@@ -37,6 +42,7 @@ def create_app(test_config=None):
 
         return render_template("gallery.html", title = title, date = date, images = images)
 
+    # API routes:
 
     @app.route("/api/v1.0/upload", methods=["POST"])
     def api_upload_image():

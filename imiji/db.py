@@ -3,6 +3,10 @@ from gridfs import GridFS
 import utils
 
 class DB_Handler:
+    """
+    DB_Handler mediates communication between the Flask app and the MongoDB database.
+    """
+
     def __init__(self, config):
         """
         Create a MongoDB connection.
