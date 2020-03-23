@@ -34,23 +34,22 @@ $(document).ready(function() {
 
         const files = [];
 
-        console.log(e);
-
         const dt = e.originalEvent.dataTransfer;
-
         // creds to MDN for most of this: https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/File_drag_and_drop
         if (dt.items) {
             // Use DataTransferItemList interface to access the file(s)
             for (const item of dt.items) {
                 // If dropped items aren't files, reject them
-                if (item.kind === 'file') {
+                if (item.kind === "file" && item.type === "image/jpeg") {
                     files.push(item.getAsFile());
                 }
             }
         } else {
             // Use DataTransfer interface to access the file(s)
             for (const file of dt.files) {
-                files.push(file);
+                if (file.type === "image/jpeg") {
+                    files.push(file);
+                }
             }
         }
 
