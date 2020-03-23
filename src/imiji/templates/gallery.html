@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>
+            imiji
+        </title>
+        <link rel="stylesheet" type="text/css" href="/static/style.css">
+    </head>
+    <body>
+        <div id="content">
+            <h1>imiji</h1>
+
+            <hr>
+
+            <div id="title"><h2 >{{ title }}</h2><div id="date">Uploaded {{ date.strftime("%B %d, %Y at %H:%M") }}</div></div>
+
+            <br>
+
+            <div id="images">
+                {% for image in images %}
+                <div id="image_template" class="image_div">
+                    <img class="image" src="/api/v1.0/image/{{ image.id }}.jpg"></img>
+                    <br>
+                    <textarea class="description2" placeholder="Description" readonly>{{ image.description }}</textarea>
+                    <div class="link">(<a href="/api/v1.0/image/{{ image.id }}.jpg">link</a>)</div>
+                    <br><br>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </body>
+</html>

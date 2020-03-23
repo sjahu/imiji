@@ -9,14 +9,14 @@ class DB_Handler:
 
         config - the Flask config
         """
-        assert('MONGO_URI' in config) # the full URI of the MongoDB database
-        assert('ID_SIZE' in config) # the number of chars to use for IDs
+        assert("MONGO_URI" in config) # the full URI of the MongoDB database
+        assert("ID_SIZE" in config) # the number of chars to use for IDs
 
-        self.id_size = config['ID_SIZE']
-        self.client = MongoClient(config['MONGO_URI'])
+        self.id_size = config["ID_SIZE"]
+        self.client = MongoClient(config["MONGO_URI"])
         self.db = self.client.get_default_database() # get db specified in uri
-        self.images = self.db['images'] # get images collection
-        self.galleries = self.db['galleries'] # get images collection
+        self.images = self.db["images"] # get images collection
+        self.galleries = self.db["galleries"] # get images collection
         self.fs = GridFS(self.db)
 
     def insert_image(self, file, description, date, uploader_ip):
@@ -25,14 +25,13 @@ class DB_Handler:
 
         file should be bytes
         """
-        doc = { 'id': self.gen_unique_id(), # note this is different from Mongo's _id field
-                'file': self.fs.put(file),
-                'description': description,
-                'date_created': date,
-                'uploader_ip': uploader_ip
-              }
+        doc = { "id": self.gen_unique_id(), # note this is different from Mongo"s _id field
+                "file": self.fs.put(file),
+                "description": description,
+                "date_created": date,
+                "uploader_ip": uploader_ip }
         self.images.insert_one(doc)
-        return doc['id']
+        return doc["id"]
 
     def gen_unique_id(self):
         """
@@ -42,22 +41,38 @@ class DB_Handler:
         """
         for _ in range(5):
             id = utils.random_id(self.id_size)
-            if self.images.find_one({ 'id': id }) == None and \
-               self.galleries.find_one({ 'id': id }) == None:
+            if self.images.find_one({ "id": id }) == None and \
+               self.galleries.find_one({ "id": id }) == None:
                 return id
         raise Exception("Failed to generate unique ID!")
 
     def select_image(self, id):
         """
-        Select and return an image
+        Select and return an image: { id, file, description, date_created }
 
         file is returned as bytes
         """
-        doc = self.images.find_one({ 'id': id })
+        doc = self.images.find_one({ "id": id })
         if doc == None:
             return None
-        file = self.fs.get(doc['file']).read()
-        return { 'id': id, 'file': file, 'description': doc['description'], 'upload_date': doc['upload_date']}
+        file = self.fs.get(doc["file"]).read()
+        return { "id": id,
+                 "file": file,
+                 "description": doc["description"],
+                 "date_created": doc["date_created"] }
+
+    def select_image_metadata(self, id):
+        """
+        Select and return an image's metadata: { id, description, date_created }
+
+        save transfering the file from the db when we don't need it
+        """
+        doc = self.images.find_one({ "id": id }, { "id": True, "description": True, "date_created": True })
+        if doc == None:
+            return None
+        return { "id": id,
+                 "description": doc["description"],
+                 "date_created": doc["date_created"] }
 
     def insert_gallery(self, title, date, images, uploader_ip):
         """
@@ -65,11 +80,24 @@ class DB_Handler:
 
         images is a list of image IDs
         """
-        doc = { 'id': self.gen_unique_id(),
-                'title': title,
-                'date_created': date,
-                'images': images,
-                'uploader_ip': uploader_ip
-              }
+        doc = { "id": self.gen_unique_id(),
+                "title": title,
+                "date_created": date,
+                "images": images,
+                "uploader_ip": uploader_ip }
         self.galleries.insert_one(doc)
-        return doc['id']
+        return doc["id"]
+
+    def select_gallery(self, id):
+        """
+        Select and return a gallery: { id, title, date_created, images }
+
+        images is a list of image IDs
+        """
+        doc = self.galleries.find_one({ "id": id })
+        if doc == None:
+            return None
+        return { "id": id,
+                 "title": doc["title"],
+                 "date_created": doc["date_created"],
+                 "images": doc["images"] }

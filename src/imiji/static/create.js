@@ -91,6 +91,11 @@ $(document).ready(function() {
     });
 
     $("#upload_button").click(async function() {
+        // hide dropzone and upload button, show spinner
+        $("#dropzone").addClass("hidden")
+        $("#upload_button").addClass("hidden")
+        $("#uploading").removeClass("hidden")
+
         // upload each image
         const uploads = [];
         for (const image of gallery.images) {
@@ -98,7 +103,10 @@ $(document).ready(function() {
         }
         const image_ids = await Promise.all(uploads);
         const gallery_id = await create_gallery(gallery.title, image_ids);
-        console.log("All done: ", gallery_id);
+        console.log("All done, opening gallery ", gallery_id);
+
+        // navigate to new gallery
+        window.location.href = `/gallery/${gallery_id}`
     });
 
     // API call to upload image
